@@ -31,8 +31,7 @@ Calling `GetMedium.Truncated.blog_posts(url)`, where `url` is the URL to the API
 ## Examples
 A simple example of how it works. I am using my publications's RSS feed, I have registered with RSS2Json so I can use my API key to return only the last three of my blog posts.
 ```elixir
-iex> use GetMedium
-...> url = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Frss&api_key=YOUR_API_KEY&count=3"
+iex> url = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Frss&api_key=YOUR_API_KEY&count=3"
 ...> GetMedium.Truncated.blog_posts(url)
 [%{categories: ["programming", "coding", "elixir", "web-development"],
   content: "I was tasked with a code challenge to create an Elixir/Phoenix app that would be a newsletter sending system. The requirements were simple and I had 48 hours to complete it. I lost a bit of time on the first day which caused me to cut some corners and not use TDD (tsk tsk). I had a deadline and...",
