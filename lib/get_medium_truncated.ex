@@ -31,7 +31,7 @@ defmodule GetMedium.Truncated do
       title:   get_title(item.title),
       date:    get_date(item.pubDate),
       link:    get_link(item.link),
-      heading: get_heading(item.content),
+      subheading: get_subheading(item.content),
       content: get_content(item.content),
       categories: get_categories(item.categories)
     }
@@ -57,11 +57,11 @@ defmodule GetMedium.Truncated do
     Regex.run(~r{[^?]+}, link)
   end
 
-  def get_heading(content) do
-    [_, heading] = Regex.replace(~r{(<h4>|<h3>)}, content, "<Z>")
+  def get_subheading(content) do
+    [_, subheading] = Regex.replace(~r{(<h4>|<h3>)}, content, "<Z>")
     |> (&Regex.replace(~r{(<\/h4>|<\/h3>)}, &1, "<Z>")).()
     |> (&Regex.run(~r{<Z>(.*?)<Z>}, &1)).()
-    heading
+    subheading
   end
 
   def get_content(content) do
