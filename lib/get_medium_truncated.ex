@@ -1,20 +1,9 @@
 defmodule GetMedium.Truncated do
   @moduledoc """
-  Documentation for GetMedium.
+  This module returns a truncated version of your Medium blog posts. It defaults to 301 characters then trims back to the last space " ".
+
+  For example, if your post ends with "and that's the way the cookie crum", your content will be trimmed to end with "and that's the way the cookie". Even if the entire word "crumbles" was there, it would still do the same. This is to avoid ending up with partial words.
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> GetMedium.hello
-      :world
-
-  """
-  def hello do
-    :world
-  end
 
   use Timex
 
