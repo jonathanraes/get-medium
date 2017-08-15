@@ -1,5 +1,7 @@
 # GetMedium
 
+GetMedium is an Elixir package to solve the problem of Medium's API not having a way to get your blog posts. Medium's API currently only allows posting to your blog which is a problem for those of us who want to display all or part of our recent posts on our personal site.
+
 GetMedium returns a truncated version of your Medium blog posts. It requires your Medium RSS URL (see below for details), and the number of characters to truncate at. The default value is set to 304 (305 characters when zero indexed). This will truncate your content at 305 characters, then trim that down passed the last space " ".
 
 For example, if your post ends with "and that's the way the cookie crum", your content will be trimmed to end with "and that's the way the cookie". Even if the entire word "crumbles" was there, it would still do the same. This is to avoid ending up with partial words.
