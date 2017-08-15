@@ -1,6 +1,6 @@
 defmodule GetMedium.Truncated do
   @moduledoc """
-  This module returns a truncated version of your Medium blog posts. It defaults to 301 characters then trims back to the last space " ".
+  This module returns a truncated version of your Medium blog posts. It requires your Medium RSS URL (see blog_posts_truncated/2 for details), and the number of characters to truncate at. The default value is set to 304 (305 characters when zero indexed). This will truncate your content at 305 characters, then trim that down passed the last space " ".
 
   For example, if your post ends with "and that's the way the cookie crum", your content will be trimmed to end with "and that's the way the cookie". Even if the entire word "crumbles" was there, it would still do the same. This is to avoid ending up with partial words.
   """
