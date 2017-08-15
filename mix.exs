@@ -6,8 +6,19 @@ defmodule GetMedium.Mixfile do
       app: :get_medium,
       version: "0.1.0",
       elixir: "~> 1.5",
-      start_permanent: Mix.env == :prod,
+      description: "GetMedium returns a truncated version of your Medium blog posts.",
+      package: package(),
       deps: deps()
+    ]
+  end
+
+  def package do
+    [
+      name: :get_medium,
+      files: ["lib", "mix.exs"],
+      maintainers: ["Brian Emory"],
+      licenses: ["MIT"],
+      links: %{"Github" => "https://github.com/thebrianemory/get-medium"}
     ]
   end
 
