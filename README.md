@@ -66,6 +66,7 @@ Currently, it should be able to handle different varieties of Medium blog posts.
 If you have a URL in your post, you may get weird results. This is something I will be looking into.
 
 ## Roadmap
+- Remove reliance on RSS2JSON
 - Returning the raw HTML for the content
 - Handling URLs in a non-destructive manner
 - Module to return posts without them being truncated
