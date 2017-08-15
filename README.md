@@ -55,8 +55,7 @@ iex> url = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.br
 
 You can also use pattern matching to easily access each post separately.
 ```elixir
-iex> use GetMedium
-...> url = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Frss&api_key=YOUR_API_KEY&count=3"
+iex> url = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Frss&api_key=YOUR_API_KEY&count=3"
 ...> [first, second, third] = GetMedium.Truncated.blog_posts(url)
 ...> first.title
 "A Newsletter Sending System Code Challenge"
