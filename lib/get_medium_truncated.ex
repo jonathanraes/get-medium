@@ -7,21 +7,21 @@ defmodule GetMedium.Truncated do
 
   use Timex
 
-  def blog_posts_truncated(url) do
+  def blog_posts_truncated(url, characters \\ 304) do
     json_data = HTTPoison.get!(url)
     %{feed: _, items: items, status: _} = Poison.Parser.parse!(json_data.body, keys: :atoms)
     Enum.map(items, fn(item) ->
-      post_data_truncated(item)
+      post_data_truncated(item, characters)
     end)
   end
 
-  def post_data_truncated(item) do
+  def post_data_truncated(item, characters) do
     %{
-      title:   get_title(item.title),
-      date:    get_date(item.pubDate),
-      link:    get_link(item.link),
+      title:      get_title(item.title),
+      date:       get_date(item.pubDate),
+      link:       get_link(item.link),
       subheading: get_subheading!(item.content),
-      content: get_content(item.content),
+      content:    get_content(item.content, characters),
       categories: get_categories(item.categories)
     }
   end
@@ -59,10 +59,10 @@ defmodule GetMedium.Truncated do
     end
   end
 
-  def get_content(content) do
+  def get_content(content, characters) do
     Regex.replace(~r{\n(<figure>).*(<\/figure>)}, content, "")
     |> (&Regex.replace(~r{(<h4>|<h3>).*(<\/h4>|<\/h3>\n)}, &1, "")).()
-    |> (&String.slice(&1, 0..301)).() |> String.replace(~r{\s[^\s]*$}, "")
+    |> (&String.slice(&1, 0..characters)).() |> String.replace(~r{\s[^\s]*$}, "")
     |> (&Regex.replace(~r{(<h4>|<h3>).*(<\/h4>\n|<\/h3>\n)}, &1, "")).()
     |> (&HtmlSanitizeEx.strip_tags(&1)).()
     |> (&Regex.replace(~r{(\n)}, &1, " ")).()
