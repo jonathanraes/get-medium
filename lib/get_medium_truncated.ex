@@ -1,4 +1,4 @@
-defmodule GetMedium do
+defmodule GetMedium.Truncated do
   @moduledoc """
   Documentation for GetMedium.
   """
@@ -18,15 +18,15 @@ defmodule GetMedium do
 
   use Timex
 
-  def get_blog_posts(url) do
+  def blog_posts_truncated(url) do
     json_data = HTTPoison.get!(url)
     %{feed: _, items: items, status: _} = Poison.Parser.parse!(json_data.body, keys: :atoms)
     Enum.map(items, fn(item) ->
-      get_post_data(item)
+      post_data_truncated(item)
     end)
   end
 
-  def get_post_data(item) do
+  def post_data_truncated(item) do
     %{
       title:   get_title(item.title),
       date:    get_date(item.pubDate),
