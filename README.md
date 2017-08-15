@@ -71,6 +71,7 @@ If you have a URL in your post, you may get weird results. This is something I w
 - Handling URLs in a non-destructive manner
 - Module to return posts without them being truncated
 - Improve testing to use mocks and ensure each part of the data is returned
+- Add image URL if the post has an image
 
 ## License
 Copyright (c) 2017 Brian Emory
