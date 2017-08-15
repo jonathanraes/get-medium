@@ -35,7 +35,8 @@ defmodule GetMedium.Mixfile do
       {:httpoison, "~> 0.12"},
       {:poison, "~> 3.1"},
       {:timex, "~> 3.1"},
-      {:html_sanitize_ex, "~> 1.3.0"}
+      {:html_sanitize_ex, "~> 1.3.0"},
+      {:ex_doc, ">= 0.0.0", only: :deve
     ]
   end
 end
