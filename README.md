@@ -63,6 +63,11 @@ iex> url = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.br
 ## Potential issues
 Currently, it should be able to handle different varieties of Medium blog posts. For example, my blog posts always start with an image, followed by a subheading, then the main content. It should also be able to handle posts that do not start with an image and/or subheading. Please open up an issue if this is not behaving as intended.
 
+GetMedium relies on https://rss2json.com to turn your RSS feed into JSON. The
+service could go down or cease to exist which means your posts will not be able
+to be retrieved until it comes back online. A top priority will be to not rely
+on RSS2JSON to avoid that ever being an issue.
+
 If you have a URL in your post, you may get weird results. This is something I will be looking into.
 
 ## Roadmap
