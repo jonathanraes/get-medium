@@ -2,7 +2,7 @@
 
 GetMedium is an Elixir package to solve the problem of Medium's API not having a way to get your blog posts. Medium's API currently only allows posting to your blog which is a problem for those of us who want to display all or part of our recent posts on our personal site.
 
-GetMedium returns a truncated version of your Medium blog posts. It requires your Medium RSS URL (see below for details), and the number of characters to truncate at. The default value is set to 304 (305 characters when zero indexed). This will truncate your content at 305 characters, then trim that down passed the last space " ".
+GetMedium returns your Medium blog posts or a truncated version of your blog post's content. Using `GetMedium.Full.blog_posts/1` only requires your Medium RSS URL (see below for details). `GetMedium.Truncated.blog_posts/1` requires your Medium RSS URL, and the number of characters to truncate at. The default value is set to 304 (305 characters when zero indexed). This will truncate your content at 305 characters, then trim that down passed the last space " ".
 
 For example, if your post ends with "and that's the way the cookie crum", your content will be trimmed to end with "and that's the way the cookie". Even if the entire word "crumbles" was there, it would still do the same. This is to avoid ending up with partial words.
 
@@ -11,13 +11,13 @@ For example, if your post ends with "and that's the way the cookie crum", your c
 ```elixir
 def deps do
   [
-    {:get_medium, "~> 0.1.0"}
+    {:get_medium, "~> 0.2.0"}
   ]
 end
 ```
 
 ## Using GetMedium
-Using a URL created by RSS2JSON for your Medium blog, it returns a list of your truncated blog posts (default is set to return 305 characters). Other services to get JSON for your Medium feed might work but the structure could be different and may break the app.
+Using a URL created by RSS2JSON for your Medium blog, it returns a list of your blog posts or truncated blog posts (default is set to return 305 characters). Other services to get JSON for your Medium feed might work but the structure could be different and may break the app.
 
 Publications have a feed format of https://medium.brianemorycom/feed and personal feeds have a format of https://medium.com/feed/@thebrianemory. Using the URL and https://rss2json.com, you will get a URL for an API call to return you feed in a JSON format. With RSS2JSON, you can use just your feed URL or you can register and use your API key to add more options like order by, order direction and items count.
 
@@ -26,7 +26,7 @@ Using an API key: https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmed
 No API key: https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Ffeed
 
 ## How it works
-Calling `GetMedium.Truncated.blog_posts(url)`, where `url` is the URL to the API call you got from RSS2JSON, `HTTPoison` and `Poison` are used to fetch and parse the JSON. This returns a list of your posts.
+Calling `GetMedium.Truncated.blog_posts(url)`, where `url` is the URL to the API call you got from RSS2JSON, `HTTPoison` and `Poison` are used to fetch and parse the JSON. This returns a list of your posts. Calling `GetMedium.Full.blog_posts(url)` works the same way while returning the full content of your blog posts.
 
 ## Examples
 A simple example of how it works. I am using my publications's RSS feed, I have registered with RSS2Json so I can use my API key to return only the last three of my blog posts.
@@ -74,7 +74,7 @@ If you have a URL in your post, you may get weird results. This is something I w
 - Remove reliance on RSS2JSON
 - Returning the raw HTML for the content
 - Handling URLs in a non-destructive manner
-- Module to return posts without them being truncated
+- [x] Module to return posts without them being truncated
 - Improve testing to use mocks and ensure each part of the data is returned
 - Add image URL if the post has an image
 
