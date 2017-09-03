@@ -4,7 +4,7 @@ defmodule GetMedium.Mixfile do
   def project do
     [
       app: :get_medium,
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.5",
       description: "GetMedium returns a truncated version of your Medium blog posts.",
       package: package(),
