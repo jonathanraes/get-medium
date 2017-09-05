@@ -43,7 +43,6 @@ defmodule GetMedium.Truncated do
         subheading: "Learn by doing",
         title: "Elixir Phoenix: Creating An App (Part 1: The Setup)"}]
 
-
   You can also use pattern matching to easily access each post separately.
       iex> use GetMedium
       ...> url = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Frss&api_key=YOUR_API_KEY&count=3"
@@ -52,21 +51,21 @@ defmodule GetMedium.Truncated do
       "A Newsletter Sending System Code Challenge"
   """
 
-  def blog_posts(url, characters \\ 304) do
+  def blog_posts(url, characters \\ 304, raw \\ false) do
     json_data = HTTPoison.get!(url)
     %{feed: _, items: items, status: _} = Poison.Parser.parse!(json_data.body, keys: :atoms)
     Enum.map(items, fn(item) ->
-      post_data(item, characters)
+      post_data(item, characters, raw)
     end)
   end
 
-  def post_data(item, characters) do
+  def post_data(item, characters, raw) do
     %{
       title:      get_title(item.title),
       date:       get_date(item.pubDate),
       link:       get_link(item.link),
       subheading: get_subheading!(item.content),
-      content:    get_content(item.content, characters),
+      content:    get_content(item.content, characters, raw),
       categories: get_categories(item.categories)
     }
   end
@@ -104,14 +103,22 @@ defmodule GetMedium.Truncated do
     end
   end
 
-  def get_content(content, characters) do
-    Regex.replace(~r{\n(<figure>).*(<\/figure>)}, content, "")
-    |> (&Regex.replace(~r{(<h4>|<h3>).*(<\/h4>|<\/h3>\n)}, &1, "")).()
-    |> (&String.slice(&1, 0..characters)).() |> String.replace(~r{\s[^\s]*$}, "")
-    |> (&Regex.replace(~r{(<h4>|<h3>).*(<\/h4>\n|<\/h3>\n)}, &1, "")).()
-    |> (&HtmlSanitizeEx.strip_tags(&1)).()
-    |> (&Regex.replace(~r{(\n)}, &1, " ")).()
-    |> Kernel.<>("...")
+  def get_content(content, characters, raw) do
+    case raw do
+      true ->
+        String.slice(content, 0..characters)
+        |> String.replace(~r{\s[^\s]*$}, "")
+        |> Kernel.<>("...")
+      false ->
+        Regex.replace(~r{\n(<figure>).*(<\/figure>)}, content, "")
+        |> (&Regex.replace(~r{(<h4>|<h3>).*(<\/h4>|<\/h3>\n)}, &1, "")).()
+        |> (&String.slice(&1, 0..characters)).()
+        |> String.replace(~r{\s[^\s]*$}, "")
+        |> (&Regex.replace(~r{(<h4>|<h3>).*(<\/h4>\n|<\/h3>\n)}, &1, "")).()
+        |> (&HtmlSanitizeEx.strip_tags(&1)).()
+        |> (&Regex.replace(~r{(\n)}, &1, " ")).()
+        |> Kernel.<>("...")
+    end
   end
 
   def get_categories(categories) do
