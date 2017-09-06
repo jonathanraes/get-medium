@@ -11,7 +11,7 @@ For example, if your post ends with "and that's the way the cookie crum", your c
 ```elixir
 def deps do
   [
-    {:get_medium, "~> 0.2.0"}
+    {:get_medium, "~> 0.3.0"}
   ]
 end
 ```
