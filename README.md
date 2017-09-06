@@ -26,7 +26,7 @@ Using an API key: https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmed
 No API key: https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Ffeed
 
 ## How it works
-Calling `GetMedium.Truncated.blog_posts(url)`, where `url` is the URL to the API call you got from RSS2JSON, `HTTPoison` and `Poison` are used to fetch and parse the JSON. This returns a list of your posts. Calling `GetMedium.Full.blog_posts(url)` works the same way while returning the full content of your blog posts.
+Calling `GetMedium.Truncated.blog_posts(url)`, where `url` is the URL to the API call you got from RSS2JSON, `HTTPoison` and `Poison` are used to fetch and parse the JSON. This returns a list of your posts. Calling `GetMedium.Full.blog_posts(url)` works the same way while returning the full content of your blog posts. By default, `GetMedium.Truncated.blog_posts` truncates the content at 305 characters. You can change the number of characters by passing `characters: 500` (where 500 is the value you want to truncate at). Both `GetMedium.Truncated.blog_posts` and `GetMedium.Full.blog_posts` return the content with the HTML tags removed. If you would like the raw HTML content, you can pass in `raw: true` as an argument.
 
 ## Examples
 A simple example of how it works. I am using my publications's RSS feed, I have registered with RSS2Json so I can use my API key to return only the last three of my blog posts.
