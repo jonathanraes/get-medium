@@ -15,7 +15,7 @@ defmodule GetMedium.Full do
   No API key: https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Ffeed
 
   ## How it works
-  Calling `GetMedium.Full.blog_posts(url)`, where `url` is the URL to the API call you got from RSS2JSON, `HTTPoison` and `Poison` are used to fetch and parse the JSON. This returns a list of your posts.
+  Calling `GetMedium.Full.blog_posts(url)`, where `url` is the URL to the API call you got from RSS2JSON, `HTTPoison` and `Poison` are used to fetch and parse the JSON. This returns a list of your posts. By default, the content is returned with the HTML tags removed. You can changes this by passing `raw: true` as an argument.
 
   ## Examples
   A simple example of how it works. I am using my publications's RSS feed, I have registered with RSS2Json so I can use my API key to return only the last three of my blog posts.
@@ -49,7 +49,7 @@ defmodule GetMedium.Full do
       "A Newsletter Sending System Code Challenge"
   """
 
-        @defaults %{raw: false}
+  @defaults %{raw: false}
 
   def blog_posts(url, options \\ []) do
     %{raw: raw} = Enum.into(options, @defaults)
