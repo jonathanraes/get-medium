@@ -72,7 +72,7 @@ If you have a URL in your post, you may get weird results. This is something I w
 
 ## Roadmap
 - [ ] Remove reliance on RSS2JSON
-- [ ] Returning the raw HTML for the content
+- [x] Returning the raw HTML for the content
 - [ ] Handling URLs in a non-destructive manner
 - [x] Module to return posts without them being truncated
 - [ ] Improve testing to use mocks and ensure each part of the data is returned
