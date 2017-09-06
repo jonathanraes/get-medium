@@ -24,7 +24,7 @@ defmodule GetMediumFullTest do
 
     test "posts can be returned with raw HTML for the content" do
     posts = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Frss&api_key=#{System.get_env("RSS2JSON")}"
-            |> GetMedium.Full.blog_posts(true)
+            |> GetMedium.Full.blog_posts(raw: true)
     post = hd(posts)
 
     assert String.contains?(post.content, "<p>")

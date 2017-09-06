@@ -49,7 +49,10 @@ defmodule GetMedium.Full do
       "A Newsletter Sending System Code Challenge"
   """
 
-  def blog_posts(url, raw \\ false) do
+        @defaults %{raw: false}
+
+  def blog_posts(url, options \\ []) do
+    %{raw: raw} = Enum.into(options, @defaults)
     json_data = HTTPoison.get!(url)
     %{feed: _, items: items, status: _} = Poison.Parser.parse!(json_data.body, keys: :atoms)
     Enum.map(items, fn(item) ->

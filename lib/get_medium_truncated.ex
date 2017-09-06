@@ -51,7 +51,10 @@ defmodule GetMedium.Truncated do
       "A Newsletter Sending System Code Challenge"
   """
 
-  def blog_posts(url, characters \\ 304, raw \\ false) do
+  @defaults %{characters: 304, raw: false}
+
+  def blog_posts(url, options \\ []) do
+    %{characters: characters, raw: raw} = Enum.into(options, @defaults)
     json_data = HTTPoison.get!(url)
     %{feed: _, items: items, status: _} = Poison.Parser.parse!(json_data.body, keys: :atoms)
     Enum.map(items, fn(item) ->
