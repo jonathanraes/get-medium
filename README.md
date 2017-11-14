@@ -1,10 +1,10 @@
 # GetMedium
 
-GetMedium is an Elixir package to solve the problem of Medium's API not having a way to get your blog posts. Medium's API currently only allows posting to your blog which is a problem for those of us who want to display all or part of our recent posts on our personal site.
+GetMedium is an Elixir package to solve the problem of Medium's API not having a way to `GET` your blog posts. Medium's API currently only allows you to `POST` to your blog which is a problem for those of us who want to display all or part of our recent posts on our personal site.
 
 GetMedium returns your Medium blog posts or a truncated version of your blog post's content. Using `GetMedium.Full.blog_posts` and `GetMedium.Truncated.blog_posts` only requires your Medium RSS URL (see below for details). By default, both will return the content with the HTML tags removed. If you would like the raw HTML, you can pass `raw: true` as an argument.
 
-By default, `GetMedium.Truncated.blog_posts` will truncate your blog posts content to 305 characters, then trim that down passed the last space " ". For example, if your post ends with "and that's the way the cookie crum", your content will be trimmed to end with "and that's the way the cookie". Even if the entire word "crumbles" was there, it would still do the same. This is to avoid ending up with partial words.
+By default, `GetMedium.Truncated.blog_posts` will truncate your blog posts content to 305 characters, then trim that down passed the last space. For example, if your post ends with "and that's the way the cookie crum", your content will be trimmed to end with "and that's the way the cookie". Even if the entire word "crumbles" was there, it would still do the same. This is to avoid ending up with partial words.
 
 ## Installation
 
@@ -17,16 +17,21 @@ end
 ```
 
 ## Using GetMedium
-Using a URL created by RSS2JSON for your Medium blog, it returns a list of your blog posts or truncated blog posts (default is set to return 305 characters). Other services to get JSON for your Medium feed might work but the structure could be different and may break the app. This will evnetually be a non-issue when GetMedium is update to not rely on RSS2JSON.
+Using a URL created by RSS2JSON for your Medium blog, it returns a list of your blog posts or truncated blog posts (default is set to return 305 characters). Other services to get JSON for your Medium feed might work but the structure could be different and may break the app. If you come across anything like this, please open an issue. This will eventually be a non-issue when GetMedium is update to not rely on RSS2JSON.
 
 Publications have a feed format of https://medium.brianemorycom/feed and personal feeds have a format of https://medium.com/feed/@thebrianemory. Using the URL and https://rss2json.com, you will get a URL for an API call to return your feed in a JSON format. With RSS2JSON, you can use just your feed URL or you can register and use your API key to add more options like order by, order direction, and items count.
 
 ### RSS2JSON feed examples
 Using an API key: https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Ffeed&api_key=YOUR_API_KEY&count=3
+
 No API key: https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Ffeed
 
 ## How it works
-When calling `GetMedium.Truncated.blog_posts(url)`, where `url` is the URL to the API call you get from RSS2JSON, `HTTPoison` and `Poison` are used to fetch and parse the JSON. This returns a list of your posts. Calling `GetMedium.Full.blog_posts(url)` works the same way while returning the full content of your blog posts. By default, `GetMedium.Truncated.blog_posts` truncates the content at 305 characters. You can change the number of characters by passing `characters: 500` (where 500 is the value you want to truncate at). Both `GetMedium.Truncated.blog_posts` and `GetMedium.Full.blog_posts` return the content with the HTML tags removed. If you would like the raw HTML content, you can pass in `raw: true` as an argument.
+When calling `GetMedium.Truncated.blog_posts(url)`, where `url` is the URL to the API call you get from RSS2JSON, `HTTPoison` and `Poison` are used to fetch and parse the JSON. This returns a list of your posts. Calling `GetMedium.Full.blog_posts(url)` works the same way while returning the full content of your blog posts. 
+
+By default, `GetMedium.Truncated.blog_posts` truncates the content at 305 characters. You can change the number of characters by passing `characters: 500` (where 500 is the value you want to truncate at).
+
+Both `GetMedium.Truncated.blog_posts` and `GetMedium.Full.blog_posts` return the content with the HTML tags removed. If you would like the raw HTML content, you can pass in `raw: true` as an argument.
 
 ## Examples using default characters and returning content with HTML tags removed
 An example of how it works. I am using my publications's RSS feed, I have registered with RSS2Json so I can use my API key to return only the last three of my blog posts.
@@ -61,7 +66,7 @@ iex> url = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.br
 "A Newsletter Sending System Code Challenge"
 ```
 
-## Example for returning the raw HTML and an example for returning a content with a higher character count
+## Example for returning the raw HTML and an example for returning content with a higher character count
 Here is an example of passing `raw: true` to get the raw HTML for your content.
 ```elixir
 iex> url = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.brianemory.com%2Frss&api_key=YOUR_API_KEY&count=3"
