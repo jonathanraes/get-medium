@@ -6,6 +6,9 @@ GetMedium returns your Medium blog posts or a truncated version of your blog pos
 
 By default, `GetMedium.Truncated.blog_posts` will truncate your blog posts content to 305 characters, then trim that down passed the last space. For example, if your post ends with "and that's the way the cookie crum", your content will be trimmed to end with "and that's the way the cookie". Even if the entire word "crumbles" was there, it would still do the same. This is to avoid ending up with partial words.
 
+## Demo
+You can see it in action on my personal site. https://www.brianemory.com/#blog
+
 ## Installation
 
 ```elixir
@@ -132,7 +135,7 @@ If you have a URL in your post, you may get weird results. This is something I w
 ## Roadmap
 - [ ] Remove reliance on RSS2JSON
 - [x] Returning the raw HTML for the content
-- [ ] Handling URLs in a non-destructive manner
+- [x] Handling URLs in a non-destructive manner
 - [x] Module to return posts without them being truncated
 - [ ] Improve testing to use mocks and ensure each part of the data is returned
 - [ ] Add image URL if the post has an image
