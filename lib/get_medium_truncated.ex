@@ -120,12 +120,12 @@ defmodule GetMedium.Truncated do
 
       false ->
         Regex.replace(~r{\n(<figure>).*(<\/figure>)}, content, "")
-        |> (&Regex.replace(~r{(<h4>|<h3>).*(<\/h4>|<\/h3>\n)}, &1, "")).()
+        |> (&Regex.replace(~r{(<h4>|<h3>).*(<\/h4>|<\/h3>)}, &1, "")).()
+        |> (&Regex.replace(~r{(<a .*?href=['""](.+?)['""].*?>|</a>)}, &1, "")).()
+        |> (&HtmlSanitizeEx.strip_tags(&1)).()
+        |> (&Regex.replace(~r{(\n\n|\n)}, &1, " ")).()
         |> (&String.slice(&1, 0..characters)).()
         |> String.replace(~r{\s[^\s]*$}, "")
-        |> (&Regex.replace(~r{(<h4>|<h3>).*(<\/h4>\n|<\/h3>\n)}, &1, "")).()
-        |> (&HtmlSanitizeEx.strip_tags(&1)).()
-        |> (&Regex.replace(~r{(\n)}, &1, " ")).()
         |> Kernel.<>("...")
     end
   end
