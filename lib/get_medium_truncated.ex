@@ -57,18 +57,19 @@ defmodule GetMedium.Truncated do
     %{characters: characters, raw: raw} = Enum.into(options, @defaults)
     json_data = HTTPoison.get!(url)
     %{feed: _, items: items, status: _} = Poison.Parser.parse!(json_data.body, keys: :atoms)
-    Enum.map(items, fn(item) ->
+
+    Enum.map(items, fn item ->
       post_data(item, characters, raw)
     end)
   end
 
   def post_data(item, characters, raw) do
     %{
-      title:      get_title(item.title),
-      date:       get_date(item.pubDate),
-      link:       get_link(item.link),
+      title: get_title(item.title),
+      date: get_date(item.pubDate),
+      link: get_link(item.link),
       subheading: get_subheading!(item.content),
-      content:    get_content(item.content, characters, raw),
+      content: get_content(item.content, characters, raw),
       categories: get_categories(item.categories)
     }
   end
@@ -79,11 +80,12 @@ defmodule GetMedium.Truncated do
 
   def get_date(date) do
     parsed_date = Timex.parse!(date, "%Y-%m-%d %H:%M:%S", :strftime)
-    t_minus_1 = Timex.shift(Timex.to_naive_datetime(Timex.now), days: -1)
+    t_minus_1 = Timex.shift(Timex.to_naive_datetime(Timex.now()), days: -1)
 
     case Timex.before?(t_minus_1, parsed_date) do
       true ->
         Timex.from_now(parsed_date)
+
       false ->
         Timex.format!(parsed_date, "%b %d, %Y", :strftime)
     end
@@ -94,13 +96,16 @@ defmodule GetMedium.Truncated do
   end
 
   def get_subheading!(content) do
-    subheading = Regex.replace(~r{(<h4>|<h3>)}, content, "<Z>")
-    |> (&Regex.replace(~r{(<\/h4>|<\/h3>)}, &1, "<Z>")).()
-    |> (&Regex.run(~r{<Z>(.*?)<Z>}, &1)).()
+    subheading =
+      Regex.replace(~r{(<h4>|<h3>)}, content, "<Z>")
+      |> (&Regex.replace(~r{(<\/h4>|<\/h3>)}, &1, "<Z>")).()
+      |> (&Regex.replace(~r{(<a .*?href=['""](.+?)['""].*?>|</a>)}, &1, "")).()
+      |> (&Regex.run(~r{<Z>(.*?)<Z>}, &1)).()
 
     case subheading do
       nil ->
         ""
+
       [_, subheading] ->
         subheading
     end
@@ -112,6 +117,7 @@ defmodule GetMedium.Truncated do
         String.slice(content, 0..characters)
         |> String.replace(~r{\s[^\s]*$}, "")
         |> Kernel.<>("...")
+
       false ->
         Regex.replace(~r{\n(<figure>).*(<\/figure>)}, content, "")
         |> (&Regex.replace(~r{(<h4>|<h3>).*(<\/h4>|<\/h3>\n)}, &1, "")).()
