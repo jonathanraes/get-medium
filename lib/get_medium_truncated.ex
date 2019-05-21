@@ -68,6 +68,7 @@ defmodule GetMedium.Truncated do
       title: get_title(item.title),
       date: get_date(item.pubDate),
       link: get_link(item.link),
+      thumbnail: get_thumbnail(item.thumbnail),
       subheading: get_subheading!(item.content),
       content: get_content(item.content, characters, raw),
       categories: get_categories(item.categories)
@@ -93,6 +94,10 @@ defmodule GetMedium.Truncated do
 
   def get_link(link) do
     Regex.run(~r{[^?]+}, link)
+  end
+
+  def get_thumbnail(thumbnail) do
+    thumbnail
   end
 
   def get_subheading!(content) do
