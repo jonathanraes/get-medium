@@ -33,7 +33,7 @@ defmodule GetMedium.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.5"},
+      {:httpoison, "~> 1.5.1"},
       {:poison, "~> 3.1"},
       {:timex, "~> 3.1"},
       {:html_sanitize_ex, "~> 1.3.0"},
